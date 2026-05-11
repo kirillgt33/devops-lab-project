@@ -24,7 +24,7 @@
 1.  Убедитесь, что у вас установлен **Docker** и **Docker Compose**.
 2.  Склонируйте репозиторий:
     ```bash
-    git clone [https://github.com/kirillgt33/devops-lab-project.git](https://github.com/kirillgt33/devops-lab-project.git)
+    git clone https://github.com/kirillgt33/devops-lab-project.git
     cd devops-lab-project
     ```
 3.  Запустите сборку и старт контейнеров:
