@@ -1,0 +1,43 @@
+---
+# Имя сценария и группа серверов из файла inventory, на которых его запускать
+- name: Deploy Backend Application to Server
+  hosts: webservers
+  become: true # Запускать команды под sudo
+
+  tasks:
+    # TASK 1: Обновляем кэш пакетов apt (как apt update)
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    # TASK 2: Устанавливаем Docker
+    - name: Install Docker
+      apt:
+        name: docker.io
+        state: present
+
+    # TASK 3: Устанавливаем Docker Compose
+    - name: Install Docker Compose
+      apt:
+        name: docker-compose-v2
+        state: present
+
+    # TASK 4: Создаем папку для проекта на сервере
+    - name: Create project directory
+      file:
+        path: /var/www/my_project
+        state: directory
+        mode: '0755'
+
+    # TASK 5: Копируем docker-compose.yml на сервер
+    - name: Copy docker-compose.yml to server
+      copy:
+        src: ../docker-compose.yml # Путь к файлу
+        dest: /var/www/my_project/docker-compose.yml # Путь на сервере
+
+    # TASK 6: Запускаем контейнеры через Docker Compose
+    - name: Start application via Docker Compose
+      docker_compose_v2:
+        project_src: /var/www/my_project
+        state: present
